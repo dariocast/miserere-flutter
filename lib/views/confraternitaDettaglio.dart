@@ -42,7 +42,7 @@ class ConfraternitaDettaglio extends StatelessWidget {
                       itemCount: snapshot.data.length,
                       itemBuilder: (BuildContext ctxt, int index) {
                         return new ListTile(
-                          leading: Text(snapshot.data[index].ora),
+                          leading: Text(snapshot.data[index].ora.substring(0,5)),
                           title: Text(snapshot.data[index].tag),
                         );
                       });
