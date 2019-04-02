@@ -1,14 +1,22 @@
 import 'package:flutter/material.dart';
+import 'package:miserere/views/confraternitaDettaglio.dart';
 import 'package:miserere/views/confraternite.dart';
 
-void main() => runApp(Applius());
+void main() => runApp(Miserere());
 
-class Applius extends StatelessWidget {
-  // This widget is the root of your application.
+class Miserere extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Applius',
+      //routing info
+      initialRoute: '/',
+      routes: {
+        // When we navigate to the "/" route, build the FirstScreen Widget
+        ConfraterniteView.routeName: (context) => ConfraterniteView(),
+        // When we navigate to the "/second" route, build the SecondScreen Widget
+        ConfraternitaDettaglio.routeName: (context) => ConfraternitaDettaglio(),
+      },
+      title: 'Miserere',
       theme: ThemeData(
         // This is the theme of your application.
         //
@@ -20,8 +28,9 @@ class Applius extends StatelessWidget {
         // Notice that the counter didn't reset back to zero; the application
         // is not restarted.
         primarySwatch: Colors.deepPurple,
+        fontFamily: "Roboto",
       ),
-      home: AppHomePage(title: 'Applius'),
+      home: AppHomePage(title: 'Miserere'),
     );
   }
 }
@@ -43,10 +52,7 @@ class AppHomePage extends StatelessWidget {
             title: Text('Confraternite'),
             trailing: Icon(Icons.chevron_right),
             onTap: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => ConfraterniteView()),
-              );
+              Navigator.pushNamed(context, '/confraternite');
             },
           ),
           ListTile(
