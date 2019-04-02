@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:miserere/views/confraternitaDettaglio.dart';
 import 'package:miserere/views/confraternite.dart';
+import 'package:miserere/views/salmo50.dart';
 
 void main() => runApp(Miserere());
 
@@ -11,10 +12,9 @@ class Miserere extends StatelessWidget {
       //routing info
       initialRoute: '/',
       routes: {
-        // When we navigate to the "/" route, build the FirstScreen Widget
         ConfraterniteView.routeName: (context) => ConfraterniteView(),
-        // When we navigate to the "/second" route, build the SecondScreen Widget
         ConfraternitaDettaglio.routeName: (context) => ConfraternitaDettaglio(),
+        Salmo50.routeName: (context) => Salmo50(),
       },
       title: 'Miserere',
       theme: ThemeData(
@@ -47,6 +47,13 @@ class AppHomePage extends StatelessWidget {
       ),
       body: ListView(
         children: <Widget>[
+          ListTile(
+            title: Center(child: Text('Miserere'),),
+            subtitle: Center(child: Text('Il salmo 50'),),
+            onTap: () {
+              Navigator.pushNamed(context, '/salmo');
+            },
+          ),
           ListTile(
             leading: Icon(Icons.people),
             title: Text('Confraternite'),
