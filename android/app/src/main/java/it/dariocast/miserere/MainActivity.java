@@ -1,4 +1,4 @@
-package it.donkir.miserere;
+package it.dariocast.miserere;
 
 import android.os.Bundle;
 import io.flutter.app.FlutterActivity;

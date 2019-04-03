@@ -1,7 +1,12 @@
+import 'dart:io';
 import 'package:flutter/material.dart';
+import 'package:miserere/views/audioView.dart';
 import 'package:miserere/views/confraternitaDettaglio.dart';
 import 'package:miserere/views/confraternite.dart';
+import 'package:miserere/views/programma.dart';
+import 'package:miserere/views/prove.dart';
 import 'package:miserere/views/salmo50.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 
 void main() => runApp(Miserere());
 
@@ -15,6 +20,9 @@ class Miserere extends StatelessWidget {
         ConfraterniteView.routeName: (context) => ConfraterniteView(),
         ConfraternitaDettaglio.routeName: (context) => ConfraternitaDettaglio(),
         Salmo50.routeName: (context) => Salmo50(),
+        AudioView.routeName: (context) => AudioView(),
+        ProgrammaView.routeName: (context) => ProgrammaView(),
+        ProveView.routeName: (context) => ProveView(),
       },
       title: 'Miserere',
       theme: ThemeData(
@@ -35,45 +43,118 @@ class Miserere extends StatelessWidget {
   }
 }
 
-class AppHomePage extends StatelessWidget {
+class AppHomePage extends StatefulWidget {
   AppHomePage({Key key, this.title}) : super(key: key);
   final String title;
 
   @override
+  _AppHomePageState createState() => _AppHomePageState();
+}
+
+class _AppHomePageState extends State<AppHomePage>{
+  FirebaseMessaging _firebaseMessaging = FirebaseMessaging();
+
+  @override
+  void initState() {
+    super.initState();
+    firebaseCloudMessaging_Listeners();
+  }
+  void firebaseCloudMessaging_Listeners() {
+    if (Platform.isIOS) iOS_Permission();
+
+    _firebaseMessaging.getToken().then((token){
+      print(token);
+    });
+
+    _firebaseMessaging.configure(
+      onMessage: (Map<String, dynamic> message) {
+        print('on message $message');
+      },
+      onResume: (Map<String, dynamic> message) {
+        print('on resume $message');
+      },
+      onLaunch: (Map<String, dynamic> message) {
+        print('on launch $message');
+      },
+    );
+  }
+
+  void iOS_Permission() {
+    _firebaseMessaging.requestNotificationPermissions(
+        IosNotificationSettings(sound: true, badge: true, alert: true)
+    );
+    _firebaseMessaging.onIosSettingsRegistered
+        .listen((IosNotificationSettings settings)
+    {
+      print("Settings registered: $settings");
+    });
+  }
+
+  @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text(title),
+    return WillPopScope(
+      child: Scaffold(
+        appBar: AppBar(
+          title: Text(widget.title),
+          centerTitle: true,
+        ),
+        body: ListView(
+          children: <Widget>[
+            ListTile(
+              leading: Icon(Icons.music_note),
+              title: Text('Miserere'),
+              subtitle: Text('Il salmo 50'),
+              trailing: Icon(Icons.chevron_right),
+              onTap: () {
+                Navigator.pushNamed(context, '/salmo');
+              },
+            ),
+            ListTile(
+              leading: Icon(Icons.event),
+              title: Text('Programma Quaresima 2019'),
+              subtitle: Text('Parrocchia San Michele Arcangelo'),
+              trailing: Icon(Icons.chevron_right),
+              onTap: () {
+                Navigator.pushNamed(context, '/programma');
+              },
+            ),
+            ListTile(
+              leading: Icon(Icons.people),
+              title: Text('Confraternite'),
+              subtitle: Text('Arciconfraternite e processioni'),
+              trailing: Icon(Icons.chevron_right),
+              onTap: () {
+                Navigator.pushNamed(context, '/confraternite');
+              },
+            ),
+            ListTile(
+              leading: Icon(Icons.map),
+              title: Text('Cosa vedere'),
+              subtitle: Text('Cosa c\'è nella prossima ora'),
+              trailing: Icon(Icons.chevron_right),
+            ),
+          ],
+        ),
       ),
-      body: ListView(
-        children: <Widget>[
-          ListTile(
-            title: Center(child: Text('Miserere'),),
-            subtitle: Center(child: Text('Il salmo 50'),),
-            onTap: () {
-              Navigator.pushNamed(context, '/salmo');
-            },
+      onWillPop: () {
+        return showDialog(
+          context: context,
+          builder: (context) => new AlertDialog(
+            title: new Text('Sei sicuro?'),
+            content: new Text('Vuoi davvero chiudere l \'app Miserere?'),
+            actions: <Widget>[
+              new FlatButton(
+                onPressed: () => Navigator.of(context).pop(false),
+                child: new Text('No'),
+              ),
+              new FlatButton(
+                onPressed: () => Navigator.of(context).pop(true),
+                child: new Text('Si'),
+              ),
+            ],
           ),
-          ListTile(
-            leading: Icon(Icons.assignment),
-            title: Text('Programma'),
-            trailing: Icon(Icons.chevron_right),
-          ),
-          ListTile(
-            leading: Icon(Icons.people),
-            title: Text('Confraternite'),
-            trailing: Icon(Icons.chevron_right),
-            onTap: () {
-              Navigator.pushNamed(context, '/confraternite');
-            },
-          ),
-          ListTile(
-            leading: Icon(Icons.map),
-            title: Text('Cosa vedere'),
-            trailing: Icon(Icons.chevron_right),
-          ),
-        ],
-      ),
+        ) ?? false;
+      },
     );
   }
 }

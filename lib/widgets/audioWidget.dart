@@ -155,7 +155,6 @@ class _AudioWidgetState extends State<AudioWidget> {
     return new Center(
         child: new Material(
             elevation: 2.0,
-            color: Colors.grey[200],
             child: new Center(
               child: new Column(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -163,7 +162,7 @@ class _AudioWidgetState extends State<AudioWidget> {
                   children: [
                     new Material(child: _buildPlayer()),
                     localFilePath != null
-                        ? new Text(localFilePath)
+                        ? new Text("La traccia è presente in locale")
                         : new Container(),
                     new Padding(
                       padding: const EdgeInsets.all(8.0),
@@ -176,7 +175,7 @@ class _AudioWidgetState extends State<AudioWidget> {
                             ),
                             new RaisedButton(
                               onPressed: () => _playLocal(),
-                              child: new Text('play local'),
+                              child: new Text('Salva in locale e riproduci'),
                             ),
                           ]),
                     )
@@ -192,17 +191,17 @@ class _AudioWidgetState extends State<AudioWidget> {
               onPressed: isPlaying ? null : () => play(),
               iconSize: 64.0,
               icon: new Icon(Icons.play_arrow),
-              color: Colors.cyan),
+              color: Colors.deepPurple),
           new IconButton(
               onPressed: isPlaying ? () => pause() : null,
               iconSize: 64.0,
               icon: new Icon(Icons.pause),
-              color: Colors.cyan),
+              color: Colors.deepPurple),
           new IconButton(
               onPressed: isPlaying || isPaused ? () => stop() : null,
               iconSize: 64.0,
               icon: new Icon(Icons.stop),
-              color: Colors.cyan),
+              color: Colors.deepPurple),
         ]),
         duration == null
             ? new Container()
@@ -218,11 +217,11 @@ class _AudioWidgetState extends State<AudioWidget> {
             new IconButton(
                 onPressed: () => mute(true),
                 icon: new Icon(Icons.headset_off),
-                color: Colors.cyan),
+                color: Colors.deepPurple),
             new IconButton(
                 onPressed: () => mute(false),
                 icon: new Icon(Icons.headset),
-                color: Colors.cyan),
+                color: Colors.deepPurple),
           ],
         ),
         new Row(mainAxisSize: MainAxisSize.min, children: [
@@ -237,7 +236,7 @@ class _AudioWidgetState extends State<AudioWidget> {
                       ? (position?.inMilliseconds?.toDouble() ?? 0.0) /
                       (duration?.inMilliseconds?.toDouble() ?? 0.0)
                       : 0.0,
-                  valueColor: new AlwaysStoppedAnimation(Colors.cyan),
+                  valueColor: new AlwaysStoppedAnimation(Colors.deepPurple),
                   backgroundColor: Colors.yellow,
                 ),
               ])),

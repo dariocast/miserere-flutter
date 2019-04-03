@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'dart:convert';
 import 'package:miserere/objects/Confraternita.dart';
 import 'package:miserere/objects/MiserereApi.dart';
 
