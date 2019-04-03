@@ -55,17 +55,17 @@ class AppHomePage extends StatelessWidget {
             },
           ),
           ListTile(
+            leading: Icon(Icons.assignment),
+            title: Text('Programma'),
+            trailing: Icon(Icons.chevron_right),
+          ),
+          ListTile(
             leading: Icon(Icons.people),
             title: Text('Confraternite'),
             trailing: Icon(Icons.chevron_right),
             onTap: () {
               Navigator.pushNamed(context, '/confraternite');
             },
-          ),
-          ListTile(
-            leading: Icon(Icons.assignment),
-            title: Text('Programma'),
-            trailing: Icon(Icons.chevron_right),
           ),
           ListTile(
             leading: Icon(Icons.map),

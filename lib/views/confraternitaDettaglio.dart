@@ -11,10 +11,6 @@ class ConfraternitaDettaglio extends StatelessWidget {
   Widget build(BuildContext context) {
     final Confraternita confraternita =
         ModalRoute.of(context).settings.arguments;
-    final List<Tab> tabs = <Tab>[
-      Tab(child: Text('LEFT')),
-      Tab(child: Text('RIGHT')),
-    ];
     return DefaultTabController(
       length: 2,
       child: Scaffold(
@@ -23,7 +19,7 @@ class ConfraternitaDettaglio extends StatelessWidget {
           bottom: TabBar(
             tabs: [
               Tab(icon: Icon(Icons.info)),
-              Tab(icon: Icon(Icons.map)),
+              Tab(icon: Icon(Icons.location_on)),
             ],
           ),
         ),
@@ -38,14 +34,23 @@ class ConfraternitaDettaglio extends StatelessWidget {
                   MiserereApi.getLocationByConfraternitaId(confraternita.id),
               builder: (context, snapshot) {
                 if (snapshot.hasData) {
-                  return new ListView.builder(
-                      itemCount: snapshot.data.length,
-                      itemBuilder: (BuildContext ctxt, int index) {
-                        return new ListTile(
-                          leading: Text(snapshot.data[index].ora.substring(0,5)),
-                          title: Text(snapshot.data[index].tag),
-                        );
-                      });
+                  return new Scaffold(
+                    floatingActionButton: FloatingActionButton(
+                      child: Icon(Icons.map),
+                      elevation: 2.0,
+                      //TODO implement map view
+                      onPressed: () => print('map button pressed'),
+                      tooltip: 'Mostra sulla mappa',
+                    ),
+                    body: ListView.builder(
+                        itemCount: snapshot.data.length,
+                        itemBuilder: (BuildContext ctxt, int index) {
+                          return new ListTile(
+                            leading: Text(snapshot.data[index].ora.substring(0,5)),
+                            title: Text(snapshot.data[index].tag),
+                          );
+                        }),
+                  );
                 } else if (snapshot.hasError) {
                   return Text("${snapshot.error}");
                 }

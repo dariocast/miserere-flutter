@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:miserere/objects/MiserereApi.dart';
+import 'package:miserere/widgets/audioWidget.dart';
+const kUrl = "http://dariocast.altervista.org/miserere/files/miserere.mp3";
+
 
 class Salmo50 extends StatelessWidget {
   static const routeName = '/salmo';
@@ -11,10 +13,8 @@ class Salmo50 extends StatelessWidget {
         title: Text('Il Salmo 50'),
       ),
       body: Center(
-        child: Text('Miserere!!!'),
+        child: AudioWidget(kUrl),
       ),
     );
   }
-
-
 }
