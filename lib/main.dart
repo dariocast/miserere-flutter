@@ -3,10 +3,12 @@ import 'package:flutter/material.dart';
 import 'package:miserere/views/audioView.dart';
 import 'package:miserere/views/confraternitaDettaglio.dart';
 import 'package:miserere/views/confraternite.dart';
+import 'package:miserere/views/notifiche.dart';
 import 'package:miserere/views/programma.dart';
 import 'package:miserere/views/prove.dart';
 import 'package:miserere/views/salmo50.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 void main() => runApp(Miserere());
 
@@ -23,6 +25,7 @@ class Miserere extends StatelessWidget {
         AudioView.routeName: (context) => AudioView(),
         ProgrammaView.routeName: (context) => ProgrammaView(),
         ProveView.routeName: (context) => ProveView(),
+        NotificheView.routeName: (context) => NotificheView(),
       },
       title: 'Miserere',
       theme: ThemeData(
@@ -51,52 +54,89 @@ class AppHomePage extends StatefulWidget {
   _AppHomePageState createState() => _AppHomePageState();
 }
 
-class _AppHomePageState extends State<AppHomePage>{
+class _AppHomePageState extends State<AppHomePage> {
   FirebaseMessaging _firebaseMessaging = FirebaseMessaging();
-
+  int ncount = 0;
   @override
   void initState() {
     super.initState();
     firebaseCloudMessaging_Listeners();
   }
+
   void firebaseCloudMessaging_Listeners() {
     if (Platform.isIOS) iOS_Permission();
 
-    _firebaseMessaging.getToken().then((token){
+    _firebaseMessaging.getToken().then((token) {
       print(token);
     });
 
     _firebaseMessaging.configure(
       onMessage: (Map<String, dynamic> message) {
         print('on message $message');
+        _setNotifica(message.toString());
       },
       onResume: (Map<String, dynamic> message) {
         print('on resume $message');
+        _setNotifica(message.toString());
       },
       onLaunch: (Map<String, dynamic> message) {
         print('on launch $message');
+        _setNotifica(message.toString());
       },
     );
   }
 
   void iOS_Permission() {
     _firebaseMessaging.requestNotificationPermissions(
-        IosNotificationSettings(sound: true, badge: true, alert: true)
-    );
+        IosNotificationSettings(sound: true, badge: true, alert: true));
     _firebaseMessaging.onIosSettingsRegistered
-        .listen((IosNotificationSettings settings)
-    {
+        .listen((IosNotificationSettings settings) {
       print("Settings registered: $settings");
     });
   }
 
   @override
   Widget build(BuildContext context) {
+    _getNotificheCount();
     return WillPopScope(
       child: Scaffold(
         appBar: AppBar(
           title: Text(widget.title),
           centerTitle: true,
+          actions: <Widget>[
+            IconButton(
+              icon: ncount<=0? new Icon(Icons.notifications): new Stack(
+                children: <Widget>[
+                  new Icon(Icons.notifications),
+                  new Positioned(
+                    right: 0,
+                    child: new Container(
+                      padding: EdgeInsets.all(1),
+                      decoration: new BoxDecoration(
+                        color: Colors.red,
+                        borderRadius: BorderRadius.circular(6),
+                      ),
+                      constraints: BoxConstraints(
+                        minWidth: 12,
+                        minHeight: 12,
+                      ),
+                      child: new Text(
+                        '$ncount',
+                        style: new TextStyle(
+                          color: Colors.white,
+                          fontSize: 8,
+                        ),
+                        textAlign: TextAlign.center,
+                      ),
+                    ),
+                  )
+                ],
+              ),
+              onPressed: () {
+                Navigator.pushNamed(context, '/notifiche');
+              },
+            )
+          ],
         ),
         body: ListView(
           children: <Widget>[
@@ -138,24 +178,39 @@ class _AppHomePageState extends State<AppHomePage>{
       ),
       onWillPop: () {
         return showDialog(
-          context: context,
-          builder: (context) => new AlertDialog(
-            title: new Text('Sei sicuro?'),
-            content: new Text('Vuoi davvero chiudere l \'app Miserere?'),
-            actions: <Widget>[
-              new FlatButton(
-                onPressed: () => Navigator.of(context).pop(false),
-                child: new Text('No'),
-              ),
-              new FlatButton(
-                onPressed: () => Navigator.of(context).pop(true),
-                child: new Text('Si'),
-              ),
-            ],
-          ),
-        ) ?? false;
+              context: context,
+              builder: (context) => new AlertDialog(
+                    title: new Text('Sei sicuro?'),
+                    content:
+                        new Text('Vuoi davvero chiudere l \'app Miserere?'),
+                    actions: <Widget>[
+                      new FlatButton(
+                        onPressed: () => Navigator.of(context).pop(false),
+                        child: new Text('No'),
+                      ),
+                      new FlatButton(
+                        onPressed: () => Navigator.of(context).pop(true),
+                        child: new Text('Si'),
+                      ),
+                    ],
+                  ),
+            ) ??
+            false;
       },
     );
   }
-}
 
+  _getNotificheCount() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    List<String> notifiche = (prefs.getStringList('notifiche') ?? List());
+    setState(() {
+      ncount=notifiche.length;
+    });
+  }
+
+  _setNotifica(String notifica) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    List<String> notifiche = (prefs.getStringList('notifiche') ?? List());
+    await prefs.setStringList('notifiche', notifiche);
+  }
+}
