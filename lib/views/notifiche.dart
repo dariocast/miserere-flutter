@@ -17,19 +17,31 @@ class _NotificheState extends State<NotificheView>{
   Widget build(BuildContext context) {
     _getNotifiche();
     if (listaNotifiche.length > 0) {
-      return ListView.builder(
-          itemCount: listaNotifiche.length,
-          itemBuilder: (BuildContext ctxt, int index) {
-            return new ListTile(
-              title: Text(listaNotifiche[index]),
-              trailing: IconButton(
-                  icon: Icon(Icons.delete),
-                  onPressed: () => listaNotifiche.removeAt(index)),
-            );
-          });
+      return Scaffold(
+        appBar: AppBar(
+          title: Text('Notifiche'),
+          centerTitle: true,
+        ),
+        body: new ListView.builder(
+            itemCount: listaNotifiche.length,
+            itemBuilder: (BuildContext ctxt, int index) {
+              return new ListTile(
+                title: Text(listaNotifiche[index]),
+                trailing: IconButton(
+                    icon: Icon(Icons.delete),
+                    onPressed: () => listaNotifiche.removeAt(index)),
+              );
+            }),
+      );
     } else {
-      return Center(
-        child: Text("Nessuna notifica"),
+      return Scaffold(
+        appBar: AppBar(
+          title: Text('Notifiche'),
+          centerTitle: true,
+        ),
+        body: new Center(
+          child: Text("Nessuna notifica"),
+        ),
       );
     }
   }

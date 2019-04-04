@@ -211,6 +211,7 @@ class _AppHomePageState extends State<AppHomePage> {
   _setNotifica(String notifica) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     List<String> notifiche = (prefs.getStringList('notifiche') ?? List());
+    notifiche.add(notifica);
     await prefs.setStringList('notifiche', notifiche);
   }
 }
