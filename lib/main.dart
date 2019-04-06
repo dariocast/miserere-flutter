@@ -105,9 +105,9 @@ class _AppHomePageState extends State<AppHomePage> {
           centerTitle: true,
           actions: <Widget>[
             IconButton(
-              icon: ncount<=0? new Icon(Icons.notifications): new Stack(
+              icon: ncount<=0? new Icon(Icons.notifications,color: Colors.yellow,): new Stack(
                 children: <Widget>[
-                  new Icon(Icons.notifications),
+                  new Icon(Icons.notifications,color: Colors.yellow,),
                   new Positioned(
                     right: 0,
                     child: new Container(
@@ -141,37 +141,38 @@ class _AppHomePageState extends State<AppHomePage> {
         body: ListView(
           children: <Widget>[
             ListTile(
-              leading: Icon(Icons.music_note),
+              leading: Icon(Icons.queue_music,color: Colors.black,),
               title: Text('Miserere'),
               subtitle: Text('Il salmo 50'),
-              trailing: Icon(Icons.chevron_right),
+              trailing: Icon(Icons.chevron_right,color: Colors.black,),
               onTap: () {
                 Navigator.pushNamed(context, '/salmo');
               },
             ),
             ListTile(
-              leading: Icon(Icons.event),
+              leading: Icon(Icons.event, color: Colors.deepOrange,),
               title: Text('Programma Quaresima 2019'),
               subtitle: Text('Parrocchia San Michele Arcangelo'),
-              trailing: Icon(Icons.chevron_right),
+              trailing: Icon(Icons.chevron_right, color: Colors.deepOrange,),
               onTap: () {
                 Navigator.pushNamed(context, '/programma');
               },
             ),
             ListTile(
-              leading: Icon(Icons.people),
+              leading: Icon(Icons.people, color: Colors.lightBlue,),
               title: Text('Confraternite'),
               subtitle: Text('Arciconfraternite e processioni'),
-              trailing: Icon(Icons.chevron_right),
+              trailing: Icon(Icons.chevron_right, color: Colors.lightBlue,),
               onTap: () {
                 Navigator.pushNamed(context, '/confraternite');
               },
             ),
             ListTile(
-              leading: Icon(Icons.map),
-              title: Text('Cosa vedere'),
+              leading: Icon(Icons.map, color: Colors.grey,),
+              title: Text('Cosa fare'),
               subtitle: Text('Cosa c\'è nella prossima ora'),
-              trailing: Icon(Icons.chevron_right),
+              trailing: Icon(Icons.not_interested, color: Colors.grey,),
+              enabled: false,
             ),
           ],
         ),
