@@ -39,7 +39,15 @@ class ConfraternitaDettaglio extends StatelessWidget {
                       child: Icon(Icons.map),
                       elevation: 2.0,
                       //TODO implement map view
-                      onPressed: () => print('map button pressed'),
+                      onPressed: () => Scaffold.of(context).showSnackBar(
+                        SnackBar(
+                            content: Text('Disponibile a breve'),
+                            action: SnackBarAction(
+                              label: 'Ok',
+                              onPressed: () {},
+                            )
+                        )
+                      ),
                       tooltip: 'Mostra sulla mappa',
                     ),
                     body: ListView.builder(
