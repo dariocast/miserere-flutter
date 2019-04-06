@@ -40,10 +40,10 @@ class Salmo50 extends StatelessWidget {
             color: Colors.deepPurple,
           ),
           ListTile(
-            leading: Icon(Icons.audiotrack),
+            leading: Icon(Icons.audiotrack,color: Colors.deepPurple,),
             title: Text("La traccia"),
             subtitle: Text("Traccia audio da acoltare e scaricare"),
-            trailing: Icon(Icons.chevron_right),
+            trailing: Icon(Icons.chevron_right,color: Colors.deepPurple,),
             onTap: () {
               Navigator.pushNamed(context, '/audio');
             },
