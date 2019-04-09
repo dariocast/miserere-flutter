@@ -62,4 +62,13 @@ class _NotificheState extends State<NotificheView>{
     SharedPreferences prefs = await SharedPreferences.getInstance();
     await prefs.setStringList('notifiche', notifiche);
   }
+
+  _removeNotifica(int index) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    List<String> notifiche = (prefs.getStringList('notifiche') ?? List());
+    notifiche.removeAt(index);
+    setState(() {
+      listaNotifiche = notifiche;
+    });
+  }
 }

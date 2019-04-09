@@ -36,7 +36,7 @@ class ProgrammaView extends StatelessWidget {
                               json['appuntamenti'][index]['titolo']['testo']),
                           subtitle: Text(
                               json['appuntamenti'][index]['data']['testo']),
-                          trailing: Icon(Icons.info_outline),
+                          trailing: Icon(Icons.info_outline,color: Colors.deepPurple,),
                           onTap: () {
                             showDialog(
                                 context: context,
