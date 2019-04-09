@@ -29,7 +29,11 @@ class _NotificheState extends State<NotificheView>{
                 title: Text(listaNotifiche[index]),
                 trailing: IconButton(
                     icon: Icon(Icons.delete),
-                    onPressed: () => listaNotifiche.removeAt(index)),
+                    onPressed: () {
+                      listaNotifiche.removeAt(index);
+                      _setNotifiche(listaNotifiche);
+                    },
+                )
               );
             }),
       );
@@ -52,5 +56,10 @@ class _NotificheState extends State<NotificheView>{
     setState(() {
       listaNotifiche=notifiche;
     });
+  }
+
+  _setNotifiche(List<String> notifiche) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    await prefs.setStringList('notifiche', notifiche);
   }
 }

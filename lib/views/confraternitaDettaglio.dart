@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:miserere/objects/Confraternita.dart';
 import 'package:miserere/objects/Location.dart';
 import 'package:miserere/objects/MiserereApi.dart';
-import 'package:webview_flutter/webview_flutter.dart';
 
 class ConfraternitaDettaglio extends StatelessWidget {
   static const routeName = '/dettaglio';
@@ -25,10 +24,7 @@ class ConfraternitaDettaglio extends StatelessWidget {
         ),
         body: TabBarView(
           children: [
-            WebView(
-              initialUrl: confraternita.urlInfo,
-              javascriptMode: JavascriptMode.unrestricted,
-            ),
+            Image.network(confraternita.urlInfo, fit: BoxFit.cover),
             FutureBuilder<List<Location>>(
               future:
                   MiserereApi.getLocationByConfraternitaId(confraternita.id),
