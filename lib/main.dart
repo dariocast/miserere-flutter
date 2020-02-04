@@ -7,7 +7,6 @@ import 'package:miserere/views/notifiche.dart';
 import 'package:miserere/views/programma.dart';
 import 'package:miserere/views/prove.dart';
 import 'package:miserere/views/salmo50.dart';
-import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 void main() => runApp(Miserere());
@@ -55,44 +54,10 @@ class AppHomePage extends StatefulWidget {
 }
 
 class _AppHomePageState extends State<AppHomePage> {
-  FirebaseMessaging _firebaseMessaging = FirebaseMessaging();
   int ncount = 0;
   @override
   void initState() {
     super.initState();
-    firebaseCloudMessaging_Listeners();
-  }
-
-  void firebaseCloudMessaging_Listeners() {
-    if (Platform.isIOS) iOS_Permission();
-
-    _firebaseMessaging.getToken().then((token) {
-      print(token);
-    });
-
-    _firebaseMessaging.configure(
-      onMessage: (Map<String, dynamic> message) {
-        print('on message $message');
-        _setNotifica(message.toString());
-      },
-      onResume: (Map<String, dynamic> message) {
-        print('on resume $message');
-        _setNotifica(message.toString());
-      },
-      onLaunch: (Map<String, dynamic> message) {
-        print('on launch $message');
-        _setNotifica(message.toString());
-      },
-    );
-  }
-
-  void iOS_Permission() {
-    _firebaseMessaging.requestNotificationPermissions(
-        IosNotificationSettings(sound: true, badge: true, alert: true));
-    _firebaseMessaging.onIosSettingsRegistered
-        .listen((IosNotificationSettings settings) {
-      print("Settings registered: $settings");
-    });
   }
 
   @override
