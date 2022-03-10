@@ -17,17 +17,17 @@ class ConfraterniteView extends StatelessWidget {
           builder: (context, snapshot) {
             if (snapshot.hasData) {
               return new ListView.builder(
-                  itemCount: snapshot.data.length,
+                  itemCount: snapshot.data!.length,
                   itemBuilder: (BuildContext ctxt, int index) {
                     return new ListTile(
-                        leading: Image.network(snapshot.data[index].urlIcona),
-                        title: Text(snapshot.data[index].nome),
+                        leading: Image.network(snapshot.data![index].urlIcona!),
+                        title: Text(snapshot.data![index].nome!),
                         trailing: Icon(Icons.chevron_right),
                         onTap: () {
                           Navigator.pushNamed(
                               context,
                               '/dettaglio',
-                              arguments: snapshot.data[index] as Confraternita
+                              arguments: snapshot.data![index] as Confraternita
                           );
                         });
                   });

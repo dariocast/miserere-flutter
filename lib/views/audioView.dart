@@ -13,9 +13,8 @@ class AudioView extends StatelessWidget {
           title: Text('Miserere, il Salmo 50'),
         ),
         body: Center(
-          child: AudioWidget(kUrl),
-        )
-    );
+          child: Container(),
+          // child: AudioWidget(kUrl),
+        ));
   }
-
 }

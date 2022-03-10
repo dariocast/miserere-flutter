@@ -6,8 +6,14 @@ class Location {
   final String tag;
   final String ora;
 
-  Location({this.id, this.confraternitaId, this.lat, this.lon, this.tag,
-      this.ora});
+  Location({
+    required this.id,
+    required this.confraternitaId,
+    required this.lat,
+    required this.lon,
+    required this.tag,
+    required this.ora,
+  });
 
   factory Location.fromJson(Map<String, dynamic> json) {
     return Location(

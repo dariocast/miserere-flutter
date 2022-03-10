@@ -9,12 +9,12 @@ class ConfraternitaDettaglio extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final Confraternita confraternita =
-        ModalRoute.of(context).settings.arguments;
+        ModalRoute.of(context)!.settings.arguments as Confraternita;
     return DefaultTabController(
       length: 2,
       child: Scaffold(
         appBar: AppBar(
-          title: Text(confraternita.nome),
+          title: Text(confraternita.nome!),
           bottom: TabBar(
             tabs: [
               Tab(icon: Icon(Icons.info)),
@@ -24,7 +24,7 @@ class ConfraternitaDettaglio extends StatelessWidget {
         ),
         body: TabBarView(
           children: [
-            Image.network(confraternita.urlInfo, fit: BoxFit.cover),
+            Image.network(confraternita.urlInfo!, fit: BoxFit.cover),
             FutureBuilder<List<Location>>(
               future:
                   MiserereApi.getLocationByConfraternitaId(confraternita.id),
@@ -47,11 +47,11 @@ class ConfraternitaDettaglio extends StatelessWidget {
                       tooltip: 'Mostra sulla mappa',
                     ),
                     body: ListView.builder(
-                        itemCount: snapshot.data.length,
+                        itemCount: snapshot.data!.length,
                         itemBuilder: (BuildContext ctxt, int index) {
                           return new ListTile(
-                            leading: Text(snapshot.data[index].ora.substring(0,5)),
-                            title: Text(snapshot.data[index].tag),
+                            leading: Text(snapshot.data![index].ora!.substring(0,5)),
+                            title: Text(snapshot.data![index].tag!),
                           );
                         }),
                   );

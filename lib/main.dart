@@ -8,8 +8,15 @@ import 'package:miserere/views/programma.dart';
 import 'package:miserere/views/prove.dart';
 import 'package:miserere/views/salmo50.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
 
-void main() => runApp(Miserere());
+Future<void> main() async {
+  await Supabase.initialize(
+      url: 'https://fzftwinmjwcanncalblz.supabase.co',
+      anonKey:
+          'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImZ6ZnR3aW5tandjYW5uY2FsYmx6Iiwicm9sZSI6ImFub24iLCJpYXQiOjE2NDY5MzYzNDcsImV4cCI6MTk2MjUxMjM0N30.LjfdAFRkhvsagtMOomrnG0o0r8K3IbMk9PQ2sJPgnpI');
+  runApp(Miserere());
+}
 
 class Miserere extends StatelessWidget {
   @override
@@ -46,8 +53,8 @@ class Miserere extends StatelessWidget {
 }
 
 class AppHomePage extends StatefulWidget {
-  AppHomePage({Key key, this.title}) : super(key: key);
-  final String title;
+  AppHomePage({Key? key, this.title}) : super(key: key);
+  final String? title;
 
   @override
   _AppHomePageState createState() => _AppHomePageState();
@@ -66,37 +73,45 @@ class _AppHomePageState extends State<AppHomePage> {
     return WillPopScope(
       child: Scaffold(
         appBar: AppBar(
-          title: Text(widget.title),
+          title: Text(widget.title!),
           centerTitle: true,
           actions: <Widget>[
             IconButton(
-              icon: ncount<=0? new Icon(Icons.notifications,color: Colors.yellow,): new Stack(
-                children: <Widget>[
-                  new Icon(Icons.notifications,color: Colors.yellow,),
-                  new Positioned(
-                    right: 0,
-                    child: new Container(
-                      padding: EdgeInsets.all(1),
-                      decoration: new BoxDecoration(
-                        color: Colors.red,
-                        borderRadius: BorderRadius.circular(6),
-                      ),
-                      constraints: BoxConstraints(
-                        minWidth: 12,
-                        minHeight: 12,
-                      ),
-                      child: new Text(
-                        '$ncount',
-                        style: new TextStyle(
-                          color: Colors.white,
-                          fontSize: 8,
+              icon: ncount <= 0
+                  ? new Icon(
+                      Icons.notifications,
+                      color: Colors.yellow,
+                    )
+                  : new Stack(
+                      children: <Widget>[
+                        new Icon(
+                          Icons.notifications,
+                          color: Colors.yellow,
                         ),
-                        textAlign: TextAlign.center,
-                      ),
+                        new Positioned(
+                          right: 0,
+                          child: new Container(
+                            padding: EdgeInsets.all(1),
+                            decoration: new BoxDecoration(
+                              color: Colors.red,
+                              borderRadius: BorderRadius.circular(6),
+                            ),
+                            constraints: BoxConstraints(
+                              minWidth: 12,
+                              minHeight: 12,
+                            ),
+                            child: new Text(
+                              '$ncount',
+                              style: new TextStyle(
+                                color: Colors.white,
+                                fontSize: 8,
+                              ),
+                              textAlign: TextAlign.center,
+                            ),
+                          ),
+                        )
+                      ],
                     ),
-                  )
-                ],
-              ),
               onPressed: () {
                 Navigator.pushNamed(context, '/notifiche');
               },
@@ -106,77 +121,99 @@ class _AppHomePageState extends State<AppHomePage> {
         body: ListView(
           children: <Widget>[
             ListTile(
-              leading: Icon(Icons.queue_music,color: Colors.black,),
+              leading: Icon(
+                Icons.queue_music,
+                color: Colors.black,
+              ),
               title: Text('Miserere'),
               subtitle: Text('Il salmo 50'),
-              trailing: Icon(Icons.chevron_right,color: Colors.black,),
+              trailing: Icon(
+                Icons.chevron_right,
+                color: Colors.black,
+              ),
               onTap: () {
                 Navigator.pushNamed(context, '/salmo');
               },
             ),
             ListTile(
-              leading: Icon(Icons.event, color: Colors.deepOrange,),
+              leading: Icon(
+                Icons.event,
+                color: Colors.deepOrange,
+              ),
               title: Text('Programma Quaresima 2019'),
               subtitle: Text('Parrocchia San Michele Arcangelo'),
-              trailing: Icon(Icons.chevron_right, color: Colors.deepOrange,),
+              trailing: Icon(
+                Icons.chevron_right,
+                color: Colors.deepOrange,
+              ),
               onTap: () {
                 Navigator.pushNamed(context, '/programma');
               },
             ),
             ListTile(
-              leading: Icon(Icons.people, color: Colors.lightBlue,),
+              leading: Icon(
+                Icons.people,
+                color: Colors.lightBlue,
+              ),
               title: Text('Confraternite'),
               subtitle: Text('Arciconfraternite e processioni'),
-              trailing: Icon(Icons.chevron_right, color: Colors.lightBlue,),
+              trailing: Icon(
+                Icons.chevron_right,
+                color: Colors.lightBlue,
+              ),
               onTap: () {
                 Navigator.pushNamed(context, '/confraternite');
               },
             ),
             ListTile(
-              leading: Icon(Icons.map, color: Colors.grey,),
+              leading: Icon(
+                Icons.map,
+                color: Colors.grey,
+              ),
               title: Text('Cosa fare'),
               subtitle: Text('Cosa c\'è nella prossima ora'),
-              trailing: Icon(Icons.not_interested, color: Colors.grey,),
+              trailing: Icon(
+                Icons.not_interested,
+                color: Colors.grey,
+              ),
               enabled: false,
             ),
           ],
         ),
       ),
-      onWillPop: () {
-        return showDialog(
-              context: context,
-              builder: (context) => new AlertDialog(
-                    title: new Text('Sei sicuro?'),
-                    content:
-                        new Text('Vuoi davvero chiudere l \'app Miserere?'),
-                    actions: <Widget>[
-                      new FlatButton(
-                        onPressed: () => Navigator.of(context).pop(false),
-                        child: new Text('No'),
-                      ),
-                      new FlatButton(
-                        onPressed: () => Navigator.of(context).pop(true),
-                        child: new Text('Si'),
-                      ),
-                    ],
-                  ),
-            ) ??
-            false;
+      onWillPop: () async {
+        return await showDialog(
+          context: context,
+          builder: (context) => new AlertDialog(
+            title: new Text('Sei sicuro?'),
+            content: new Text('Vuoi davvero chiudere l \'app Miserere?'),
+            actions: <Widget>[
+              new FlatButton(
+                onPressed: () => Navigator.of(context).pop(false),
+                child: new Text('No'),
+              ),
+              new FlatButton(
+                onPressed: () => Navigator.of(context).pop(true),
+                child: new Text('Si'),
+              ),
+            ],
+          ),
+        );
       },
     );
   }
 
   _getNotificheCount() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    List<String> notifiche = (prefs.getStringList('notifiche') ?? List());
+    List<String> notifiche = (prefs.getStringList('notifiche') ?? List.empty());
     setState(() {
-      ncount=notifiche.length;
+      ncount = notifiche.length;
     });
   }
 
   _setNotifica(String notifica) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    List<String> notifiche = (prefs.getStringList('notifiche') ?? List());
+    List<String> notifiche = (prefs.getStringList('notifiche') ?? List.empty());
     notifiche.add(notifica);
     await prefs.setStringList('notifiche', notifiche);
   }

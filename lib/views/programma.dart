@@ -6,8 +6,8 @@ class ProgrammaView extends StatelessWidget {
   static const routeName = '/programma';
 
   Future<String> fetchProgramma() async {
-    final response = await http
-        .get('http://dariocast.altervista.org/miserere/pages/quaresima.php');
+    final response = await http.get(Uri.parse(
+        'http://dariocast.altervista.org/miserere/pages/quaresima.php'));
     if (response.statusCode == 200) {
       // If server returns an OK response, parse the JSON
       return response.body;
@@ -27,7 +27,7 @@ class ProgrammaView extends StatelessWidget {
             future: fetchProgramma(),
             builder: (context, snapshot) {
               if (snapshot.hasData) {
-                var json = jsonDecode(snapshot.data);
+                var json = jsonDecode(snapshot.data!);
                 return new ListView.builder(
                     itemCount: json['appuntamenti'].length,
                     itemBuilder: (BuildContext ctxt, int index) {
@@ -36,18 +36,24 @@ class ProgrammaView extends StatelessWidget {
                               json['appuntamenti'][index]['titolo']['testo']),
                           subtitle: Text(
                               json['appuntamenti'][index]['data']['testo']),
-                          trailing: Icon(Icons.info_outline,color: Colors.deepPurple,),
+                          trailing: Icon(
+                            Icons.info_outline,
+                            color: Colors.deepPurple,
+                          ),
                           onTap: () {
                             showDialog(
                                 context: context,
                                 builder: (_) => new AlertDialog(
-                                      title: new Text(json['appuntamenti'][index]['titolo']['testo']),
-                                      content: ListTile(
-                                        title: Text(json['appuntamenti'][index]['data']['testo']),
-                                        subtitle: Text(json['appuntamenti'][index]['luogo']),
-                                        trailing: Text(json['appuntamenti'][index]['data']['ora']),
-                                      )
-                                    ));
+                                    title: new Text(json['appuntamenti'][index]
+                                        ['titolo']['testo']),
+                                    content: ListTile(
+                                      title: Text(json['appuntamenti'][index]
+                                          ['data']['testo']),
+                                      subtitle: Text(
+                                          json['appuntamenti'][index]['luogo']),
+                                      trailing: Text(json['appuntamenti'][index]
+                                          ['data']['ora']),
+                                    )));
                           });
                     });
               } else if (snapshot.hasError) {
@@ -57,7 +63,6 @@ class ProgrammaView extends StatelessWidget {
               return CircularProgressIndicator();
             },
           ),
-        )
-    );
+        ));
   }
 }

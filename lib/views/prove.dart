@@ -6,13 +6,14 @@ class ProveView extends StatelessWidget {
   static const routeName = '/prove';
 
   Future<String> fetchProve() async {
-    final response = await http
-        .get('http://dariocast.altervista.org/miserere/pages/prove.php');
+    final response = await http.get(
+        Uri.parse('http://dariocast.altervista.org/miserere/pages/prove.php'));
     if (response.statusCode == 200) {
       // If server returns an OK response, parse the JSON
       return response.body;
     } else {
-      throw Exception('Impossibile caricare il programma delle prove del miserere');
+      throw Exception(
+          'Impossibile caricare il programma delle prove del miserere');
     }
   }
 
@@ -27,18 +28,14 @@ class ProveView extends StatelessWidget {
             future: fetchProve(),
             builder: (context, snapshot) {
               if (snapshot.hasData) {
-                var json = jsonDecode(snapshot.data);
+                var json = jsonDecode(snapshot.data!);
                 return new ListView.builder(
                     itemCount: json.length,
                     itemBuilder: (BuildContext ctxt, int index) {
                       return new ListTile(
-                          title: Text(
-                              json[index]['descrizione']),
-                          subtitle: Text(
-                              json[index]['giorno']),
-                          trailing: Text(
-                              json[index]['ora']
-                          ),
+                        title: Text(json[index]['descrizione']),
+                        subtitle: Text(json[index]['giorno']),
+                        trailing: Text(json[index]['ora']),
                       );
                     });
               } else if (snapshot.hasError) {
@@ -48,7 +45,6 @@ class ProveView extends StatelessWidget {
               return CircularProgressIndicator();
             },
           ),
-        )
-    );
+        ));
   }
 }

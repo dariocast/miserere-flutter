@@ -25,12 +25,12 @@ class Salmo50 extends StatelessWidget {
           Expanded(
             child: ListView.builder(
               padding: EdgeInsets.all(8.0),
-              itemCount: testo.strofe.length,
+              itemCount: testo.strofe!.length,
               itemBuilder: (BuildContext context, int index) {
                 return ListTile(
                   contentPadding: EdgeInsets.all(5.0),
-                  title: Text(testo.strofe[index].cantato),
-                  subtitle: Text(testo.strofe[index].letto),
+                  title: Text(testo.strofe![index].cantato!),
+                  subtitle: Text(testo.strofe![index].letto!),
                 );
               },
             )

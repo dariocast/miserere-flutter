@@ -6,13 +6,14 @@ class Confraternita {
   final String urlInfo;
   final String urlIcona;
 
-  Confraternita(
-      {this.id,
-      this.nome,
-      this.urlFoto,
-      this.urlAudio,
-      this.urlInfo,
-      this.urlIcona});
+  Confraternita({
+    required this.id,
+    required this.nome,
+    required this.urlFoto,
+    required this.urlAudio,
+    required this.urlInfo,
+    required this.urlIcona,
+  });
 
   factory Confraternita.fromJson(Map<String, dynamic> json) {
     return Confraternita(

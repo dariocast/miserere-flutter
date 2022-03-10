@@ -4,14 +4,14 @@ import 'package:shared_preferences/shared_preferences.dart';
 class NotificheView extends StatefulWidget {
   static const routeName = '/notifiche';
 
-  NotificheView({Key key}) : super(key: key);
+  NotificheView({Key? key}) : super(key: key);
 
   @override
   _NotificheState createState() => _NotificheState();
 }
 
-class _NotificheState extends State<NotificheView>{
-  List<String> listaNotifiche = List();
+class _NotificheState extends State<NotificheView> {
+  List<String> listaNotifiche = List.empty();
 
   @override
   Widget build(BuildContext context) {
@@ -26,15 +26,14 @@ class _NotificheState extends State<NotificheView>{
             itemCount: listaNotifiche.length,
             itemBuilder: (BuildContext ctxt, int index) {
               return new ListTile(
-                title: Text(listaNotifiche[index]),
-                trailing: IconButton(
+                  title: Text(listaNotifiche[index]),
+                  trailing: IconButton(
                     icon: Icon(Icons.delete),
                     onPressed: () {
                       listaNotifiche.removeAt(index);
                       _setNotifiche(listaNotifiche);
                     },
-                )
-              );
+                  ));
             }),
       );
     } else {
@@ -52,9 +51,9 @@ class _NotificheState extends State<NotificheView>{
 
   _getNotifiche() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    List<String> notifiche = (prefs.getStringList('notifiche') ?? List());
+    List<String> notifiche = (prefs.getStringList('notifiche') ?? List.empty());
     setState(() {
-      listaNotifiche=notifiche;
+      listaNotifiche = notifiche;
     });
   }
 
@@ -65,7 +64,7 @@ class _NotificheState extends State<NotificheView>{
 
   _removeNotifica(int index) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    List<String> notifiche = (prefs.getStringList('notifiche') ?? List());
+    List<String> notifiche = (prefs.getStringList('notifiche') ?? List.empty());
     notifiche.removeAt(index);
     setState(() {
       listaNotifiche = notifiche;
